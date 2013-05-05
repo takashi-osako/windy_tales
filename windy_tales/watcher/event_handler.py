@@ -12,6 +12,7 @@ class WatcherEventHandler(FileSystemEventHandler):
     def on_created(self, event):
         '''
         Listen to file/directory creation events
+        Ignoring file modification and file renames
         '''
         if event.is_directory is False:
             print("New file created in LZ: " + event.src_path)

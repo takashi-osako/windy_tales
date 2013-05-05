@@ -10,6 +10,7 @@ import atexit
 from windy_tales.watcher.watcher import Watcher
 import time
 import sys
+from windy_tales.flat_file.header_parser import HeaderParser
 
 watcher = Watcher('/tmp/lz')
 
@@ -18,6 +19,9 @@ def main():
     '''
     Initializes watcher to monitor landing zone
     '''
+    # Parse C header file and Generate a template
+    HeaderParser.generate_tempate()
+
     watcher.watch_dir()
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
