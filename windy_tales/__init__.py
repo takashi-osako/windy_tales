@@ -15,6 +15,9 @@ watcher = Watcher('/tmp/lz')
 
 
 def main():
+    '''
+    Initializes watcher to monitor landing zone
+    '''
     watcher.watch_dir()
     signal.signal(signal.SIGTERM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler)
@@ -25,7 +28,7 @@ def main():
 
 def signal_handler(signal, frame):
     '''
-    Catches Ctrl-C
+    Catches Ctrl-C to exit
     '''
     print("Exiting")
     global watcher

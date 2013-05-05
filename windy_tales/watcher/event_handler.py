@@ -14,7 +14,7 @@ class WatcherEventHandler(FileSystemEventHandler):
         Listen to file/directory creation events
         '''
         if event.is_directory is False:
-            print("File created: " + event.src_path)
+            print("New file created in LZ: " + event.src_path)
 
             # New file is received, convert flat file to json format
             json_format = flat_file_to_json(event.src_path)
