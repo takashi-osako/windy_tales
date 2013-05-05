@@ -10,26 +10,25 @@ from pycparser.c_ast import ArrayDecl, IdentifierType, Struct,\
 from collections import OrderedDict
 import json
 import copy
+from windy_tales.utils.utils import read_file
 
 
-def parse_flat_file():
+def flat_file_to_json(flat_file):
     '''
-    Parses C header file, Reads flat file
+    Parses C header file, Reads flat file, Returns flat file content to json
     '''
     os.environ['PATH'] += os.pathsep + '/usr/bin'
     here = os.path.abspath(os.path.dirname(__file__))
-    f = os.path.join(here, 'resources', 'test.h')
+    file_name = os.path.join(here, '..', 'resources', 'test.h')
 
     # Calls pycparser to precompile and parse the C header file
-    ast = parse_file(f, use_cpp=True, cpp_path='/usr/bin/cpp-4.2')
-    # Prints out parsed file structure for debugging
-    ast.show(attrnames=True, nodenames=True)
+    ast = parse_c_header_file(file_name)
 
     # Go through each 'struct' that was parsed
     # Theoretically there should only be one struct per header file
     for child in ast.ext:
-        result = parse_struct(child)
-        content = read_from_flat_file()
+        result = parse_ast_to_json(child)
+        content = read_file(flat_file)
         print(json.dumps(result))
 
         (rtn_result, rtn_content) = fill_values_with_content(result, content)
@@ -39,7 +38,21 @@ def parse_flat_file():
         print(json.dumps(rtn_result))
 
 
-def parse_struct(node):
+def parse_c_header_file(file_name):
+    '''
+    Parses a C header file, returning an AST representation
+    '''
+    os.environ['PATH'] += os.pathsep + '/usr/bin'
+
+    # Calls pycparser to precompile and parse the C header file
+    ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp-4.2')
+    # Prints out parsed file structure for debugging
+    #ast.show(attrnames=True, nodenames=True)
+
+    return ast
+
+
+def parse_ast_to_json(node):
     '''
     Given an AST node, creates an ordered dict representing the structure of the header file
     from header:
@@ -68,7 +81,7 @@ def parse_struct(node):
                 __format = __type.names[0]
                 result[struct_name][__name] = __size
             elif type(__type) is Struct:
-                struct_result = parse_struct(decl_type.type)
+                struct_result = parse_ast_to_json(decl_type.type)
                 result[struct_name][__name] = []
                 for i in range(__size):
                     # Make a deep copy of the json object
@@ -76,23 +89,12 @@ def parse_struct(node):
         elif type(decl_type) is TypeDecl:
             __name = decl_type.declname
             if type(decl_type.type) is Struct:
-                struct_result = parse_struct(decl_type)
+                struct_result = parse_ast_to_json(decl_type)
                 result[struct_name][__name] = struct_result
             elif type(decl_type.type) is IdentifierType:
                 # datatypes such as int falls into here
                 pass
     return result
-
-
-def read_from_flat_file():
-    '''
-    Read and return content from flat file
-    '''
-    here = os.path.abspath(os.path.dirname(__file__))
-    f = os.path.join(here, 'resources', 'test_flat_file.txt')
-    with open(f, 'r') as reader:
-        content = reader.read()
-    return content
 
 
 def fill_values_with_content(json_obj, flat_content):
