@@ -3,7 +3,8 @@ import os
 from setuptools import setup, find_packages
 
 requires = [
-    'pycparser'
+    'pycparser',
+    'cloudy_tales'
 ]
 
 setup(name='windy_tales',
