@@ -29,19 +29,21 @@ def flat_file_to_json(flat_file):
     for child in ast.ext:
         result = parse_ast_to_json(child)
         content = read_file(flat_file)
-        print(json.dumps(result))
+        # print(json.dumps(result))
 
         (rtn_result, rtn_content) = fill_values_with_content(result, content)
 
         if len(rtn_content) != 0:
             print("non zero flat file content! Remaining Content: %s", rtn_content)
-        print(json.dumps(rtn_result))
+
+    return json.dumps(rtn_result)
 
 
 def parse_c_header_file(file_name):
     '''
     Parses a C header file, returning an AST representation
     '''
+    # TODO:  If header file is static, we should only parse it once and save it
     os.environ['PATH'] += os.pathsep + '/usr/bin'
 
     # Calls pycparser to precompile and parse the C header file

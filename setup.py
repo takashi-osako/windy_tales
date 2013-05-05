@@ -1,10 +1,9 @@
-import os
-
 from setuptools import setup, find_packages
 
 requires = [
     'pycparser',
-    'cloudy_tales'
+    'cloudy_tales',
+    'watchdog'
 ]
 
 setup(name='windy_tales',
