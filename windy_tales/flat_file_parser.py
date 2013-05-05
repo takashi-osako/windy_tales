@@ -18,7 +18,7 @@ def parse_flat_file():
     '''
     os.environ['PATH'] += os.pathsep + '/usr/bin'
     here = os.path.abspath(os.path.dirname(__file__))
-    f = os.path.join(here, '..', 'resources', 'test.h')
+    f = os.path.join(here, 'resources', 'test.h')
 
     # Calls pycparser to precompile and parse the C header file
     ast = parse_file(f, use_cpp=True, cpp_path='/usr/bin/cpp-4.2')
@@ -89,7 +89,7 @@ def read_from_flat_file():
     Read and return content from flat file
     '''
     here = os.path.abspath(os.path.dirname(__file__))
-    f = os.path.join(here, '..', 'resources', 'test_flat_file.txt')
+    f = os.path.join(here, 'resources', 'test_flat_file.txt')
     with open(f, 'r') as reader:
         content = reader.read()
     return content
