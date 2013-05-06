@@ -11,6 +11,7 @@ from windy_tales.watcher.watcher import Watcher
 import time
 import sys
 from windy_tales.flat_file.header_parser import HeaderParser
+from cloudy_tales.database.client import create_db_client
 
 watcher = Watcher('/tmp/lz')
 
@@ -19,6 +20,8 @@ def main():
     '''
     Initializes watcher to monitor landing zone
     '''
+    # initialize mongodb
+    create_db_client()
     # Parse C header file and Generate a template
     HeaderParser.generate_tempate()
 
