@@ -3,7 +3,6 @@ Created on May 2, 2013
 
 @author: dorisip
 '''
-import json
 from windy_tales.utils.utils import read_file
 from windy_tales.flat_file.header_parser import HeaderParser
 
@@ -23,7 +22,7 @@ def flat_file_to_json(flat_file):
     if len(rtn_content) != 0:
         print("non zero flat file content! Remaining Content: %s", rtn_content)
 
-    return json.dumps(rtn_result)
+    return rtn_result
 
 
 def fill_values_with_content(json_obj, flat_content):
