@@ -17,7 +17,7 @@ def flat_file_to_json(flat_file):
     # Read flat file
     content = read_file(flat_file)
 
-    (rtn_result, rtn_content) = fill_values_with_content(template, content)
+    (rtn_result, rtn_content) = __fill_values_with_content(template, content)
 
     if len(rtn_content) != 0:
         print("non zero flat file content! Remaining Content: %s", rtn_content)
@@ -25,14 +25,14 @@ def flat_file_to_json(flat_file):
     return rtn_result
 
 
-def fill_values_with_content(json_obj, flat_content):
+def __fill_values_with_content(json_obj, flat_content):
     '''
     Given a ordered dict generated based on interpretation of header file, and the content of the flat file,
     Returns a json ordered dict with values filled in from content in flat file
     '''
     if type(json_obj) is list:
         for i in range(len(json_obj)):
-            (json_obj[i], flat_content) = fill_values_with_content(json_obj[i], flat_content)
+            (json_obj[i], flat_content) = __fill_values_with_content(json_obj[i], flat_content)
     else:
         for (key, value) in json_obj.items():
             # leaf nodes have int as values
@@ -46,6 +46,6 @@ def fill_values_with_content(json_obj, flat_content):
                     json_obj[key] = flat_content[0: value].strip()
                     flat_content = flat_content[value:]
             else:
-                (json_obj[key], flat_content) = fill_values_with_content(value, flat_content)
+                (json_obj[key], flat_content) = __fill_values_with_content(value, flat_content)
 
     return (json_obj, flat_content)

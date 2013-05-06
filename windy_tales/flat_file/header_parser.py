@@ -23,11 +23,12 @@ class HeaderParser():
     ast = None
 
     @staticmethod
-    def generate_tempate():
+    def generate_tempate(file_name=None):
         # Assumption: we only have one header file
-        os.environ['PATH'] += os.pathsep + '/usr/bin'
-        here = os.path.abspath(os.path.dirname(__file__))
-        file_name = os.path.join(here, '..', 'resources', 'test.h')
+        if file_name is None:
+            os.environ['PATH'] += os.pathsep + '/usr/bin'
+            here = os.path.abspath(os.path.dirname(__file__))
+            file_name = os.path.join(here, '..', 'resources', 'test.h')
 
         HeaderParser.__parse_c_header_file(file_name)
 
