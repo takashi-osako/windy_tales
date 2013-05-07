@@ -20,7 +20,7 @@ def flat_file_to_json(flat_file):
     (rtn_result, rtn_content) = __fill_values_with_content(template, content)
 
     if len(rtn_content) != 0:
-        print("non zero flat file content! Remaining Content: %s", rtn_content)
+        print ("non zero flat file content. Remaining Content: ", rtn_content)
 
     return rtn_result
 

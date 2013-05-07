@@ -21,7 +21,7 @@ class TestHeaderParser(unittest.TestCase):
         template = HeaderParser.get_template()
 
         self.assertEquals(template['book']['title'], 10)
-        self.assertEquals(template['book']['names'][1]['ack']['name'], 6)
+        self.assertEquals(template['book']['ack'][1]['name'], 6)
 
     def test_generate_template_unsupported_header_file(self):
         here = os.path.abspath(os.path.dirname(__file__))

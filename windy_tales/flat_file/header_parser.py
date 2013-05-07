@@ -49,7 +49,7 @@ class HeaderParser():
         # Calls pycparser to precompile and parse the C header file
         HeaderParser.ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp')
         # Prints out parsed file structure for debugging
-        #ast.show(attrnames=True, nodenames=True)
+        #HeaderParser.ast.show(attrnames=True, nodenames=True)
 
         # Theoretically there should only be one struct per header file
         if len(HeaderParser.ast.ext) > 1:
@@ -91,15 +91,18 @@ class HeaderParser():
                     result[struct_name][__name] = __size
                 elif type(__type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type.type)
+                    # Note that there should only have one key
+                    __name = struct_result.keys()[0]
                     result[struct_name][__name] = []
                     for i in range(__size):
                         # Make a deep copy of the json object
-                        result[struct_name][__name].append(copy.deepcopy(struct_result))
+                        result[struct_name][__name].append(copy.deepcopy(struct_result[__name]))
             elif type(decl_type) is TypeDecl:
-                __name = decl_type.declname
                 if type(decl_type.type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type)
-                    result[struct_name][__name] = struct_result
+                    # Note that there should only have one key
+                    __name = struct_result.keys()[0]
+                    result[struct_name][__name] = struct_result[__name]
                 elif type(decl_type.type) is IdentifierType:
                     # datatypes such as int falls into here
                     pass

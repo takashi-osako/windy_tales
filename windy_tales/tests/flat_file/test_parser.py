@@ -25,8 +25,8 @@ class TestParser(unittest.TestCase):
 
         self.assertEquals(value['book']['title'], 'Book Name')
         self.assertEquals(value['book']['description'], 'my desc')
-        self.assertEquals(value['book']['names'][0]['ack']['name'], 'Alex')
-        self.assertEquals(value['book']['names'][1]['ack']['name'], 'Ben')
+        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
+        self.assertEquals(value['book']['ack'][1]['name'], 'Ben')
 
     def test_flat_file_to_json_with_truncated_flat_file(self):
         here = os.path.abspath(os.path.dirname(__file__))
@@ -35,16 +35,16 @@ class TestParser(unittest.TestCase):
 
         self.assertEquals(value['book']['title'], 'MyBook')
         self.assertEquals(value['book']['description'], '')
-        self.assertEquals(value['book']['names'][0]['ack']['name'], '')
-        self.assertEquals(value['book']['names'][1]['ack']['name'], '')
+        self.assertEquals(value['book']['ack'][0]['name'], '')
+        self.assertEquals(value['book']['ack'][1]['name'], '')
 
     def test_flat_file_to_json_with_extra_characters_in_flat(self):
         here = os.path.abspath(os.path.dirname(__file__))
         file_name = os.path.join(here, '..', 'resources', 'extra_sample.flat')
         value = flat_file_to_json(file_name)
 
-        self.assertEquals(value['book']['names'][0]['ack']['name'], 'Alex')
-        self.assertEquals(value['book']['names'][1]['ack']['name'], 'Benjam')
+        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
+        self.assertEquals(value['book']['ack'][1]['name'], 'Benjam')
 
 
 if __name__ == "__main__":
