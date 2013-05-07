@@ -10,7 +10,10 @@ from windy_tales.utils.utils import mkdir_p
 
 
 class Watcher():
-    def __init__(self, dir_name='/tmp'):
+    '''
+    Watches a directory for file/directory creations
+    '''
+    def __init__(self, dir_name):
         self.__dir = dir_name
         self.__observer = Observer()
 

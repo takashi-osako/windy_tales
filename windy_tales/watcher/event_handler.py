@@ -7,7 +7,7 @@ from watchdog.events import FileSystemEventHandler
 from windy_tales.flat_file.parser import flat_file_to_json
 from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.genericCollection import GenericCollection
-from windy_tales.watcher.archive import achive_file
+from windy_tales.utils.archive import achive_file
 
 
 class WatcherEventHandler(FileSystemEventHandler):
