@@ -47,7 +47,7 @@ class HeaderParser():
         os.environ['PATH'] += os.pathsep + '/usr/bin'
 
         # Calls pycparser to precompile and parse the C header file
-        HeaderParser.ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp-4.2')
+        HeaderParser.ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp')
         # Prints out parsed file structure for debugging
         #ast.show(attrnames=True, nodenames=True)
 
