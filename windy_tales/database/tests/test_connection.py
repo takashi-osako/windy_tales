@@ -5,7 +5,7 @@ Created on May 5, 2013
 '''
 import unittest
 from windy_tales.database.connection import WindyDbConnection
-from cloudy_tales.database.tests.UniteTestWithMongoDB import UnitTestWithMongoDB
+from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
 
 
 class TestWindyConnection(UnitTestWithMongoDB):

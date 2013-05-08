@@ -4,11 +4,12 @@ Created on May 5, 2013
 @author: dorisip
 '''
 from watchdog.events import FileSystemEventHandler
-from windy_tales.flat_file.parser import flat_file_to_json
 from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.genericCollection import GenericCollection
 from windy_tales.utils.archive import achive_file
 import os
+from windy_tales.flat_file.parser import flat_to_json
+from windy_tales.utils.utils import read_file
 
 
 class WatcherEventHandler(FileSystemEventHandler):
@@ -23,7 +24,8 @@ class WatcherEventHandler(FileSystemEventHandler):
                 print("File created renamed in LZ: " + event.dest_path)
 
                 # New file is received, convert flat file to json format
-                json_format = flat_file_to_json(event.dest_path)
+                flat_content=read_file(event.dest_path)
+                json_format = flat_to_json('test', flat_content)
 
                 # archive the file
                 achive_file(event.dest_path)
