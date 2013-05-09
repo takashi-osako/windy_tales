@@ -12,6 +12,11 @@ import unittest
 
 
 class TestHeaderParser(UnitTestWithMongoDB):
+    
+    def setUp(self):
+        with WindyDbConnection() as connection:
+            headerParsed = HeaderfileParsedTemplate(connection)
+            headerParsed.remove()
 
     def test_generate_tempate_from_sample(self):
         here = os.path.abspath(os.path.dirname(__file__))
