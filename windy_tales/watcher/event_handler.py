@@ -32,7 +32,7 @@ class WatcherEventHandler(FileSystemEventHandler):
                     json_format = flat_to_json(data_name, content)
 
                     with WindyDbConnection() as connection:
-                        genericCollection = GenericCollection(connection, 'dummyname')
+                        genericCollection = GenericCollection(connection, data_name)
                         genericCollection.save(json_format)
                     print(json_format)
 
