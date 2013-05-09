@@ -10,6 +10,7 @@ from pycparser.c_ast import ArrayDecl, IdentifierType, Struct, \
     TypeDecl
 from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
+from windy_tales.exceptions.exceptions import HeaderFileNotFound
 
 
 class HeaderParser():
@@ -36,6 +37,8 @@ class HeaderParser():
         with WindyDbConnection() as connection:
             headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
             json = headerFileParsedTemplate.find_by_name(name)
+            if json is None:
+                raise HeaderFileNotFound(name)
             result = json.get('metadata')
         return result
 

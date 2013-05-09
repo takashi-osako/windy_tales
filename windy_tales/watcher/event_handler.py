@@ -21,7 +21,7 @@ class WatcherEventHandler(FileSystemEventHandler):
         if event.is_directory is False:
             file_name, file_ext = os.path.splitext(event.dest_path)
             if file_ext == '.flat':
-                print("File created renamed in LZ: " + event.dest_path)
+                print("File renamed in LZ: " + event.dest_path)
 
                 # New file is received, convert flat file to json format
                 flat_contents = read_file(event.dest_path)
