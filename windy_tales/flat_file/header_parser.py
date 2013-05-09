@@ -8,7 +8,6 @@ from pycparser import parse_file
 import copy
 from pycparser.c_ast import ArrayDecl, IdentifierType, Struct,\
     TypeDecl
-from collections import OrderedDict
 
 
 class HeaderParser():
@@ -71,7 +70,7 @@ class HeaderParser():
         };
         generates the following ordered dict: {"address": {"address_line1": 20, "country": 2}}
         '''
-        result = OrderedDict()
+        result = {}
         node_type = node.type
 
         if node_type.name:
@@ -79,7 +78,7 @@ class HeaderParser():
         elif node_type.declname:
             struct_name = node_type.declname
 
-        result[struct_name] = OrderedDict()
+        result[struct_name] = []
         for decl in node_type.decls:
             decl_type = decl.type
             if type(decl_type) is ArrayDecl:
@@ -88,21 +87,22 @@ class HeaderParser():
                 __name = decl_type.type.declname
                 if type(__type) is IdentifierType:
                     __format = __type.names[0]
-                    result[struct_name][__name] = __size
+                    result[struct_name].append({__name: __size})
                 elif type(__type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type.type)
                     # Note that there should only have one key
                     __name = struct_result.keys()[0]
-                    result[struct_name][__name] = []
+                    __list = []
                     for i in range(__size):
                         # Make a deep copy of the json object
-                        result[struct_name][__name].append(copy.deepcopy(struct_result[__name]))
+                        __list.append(copy.deepcopy(struct_result[__name]))
+                    result[struct_name].append({__name: __list})
             elif type(decl_type) is TypeDecl:
                 if type(decl_type.type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type)
                     # Note that there should only have one key
                     __name = struct_result.keys()[0]
-                    result[struct_name][__name] = struct_result[__name]
+                    result[struct_name].append({__name: struct_result[__name]})
                 elif type(decl_type.type) is IdentifierType:
                     # datatypes such as int falls into here
                     pass
