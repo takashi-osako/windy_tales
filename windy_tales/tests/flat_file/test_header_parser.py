@@ -5,18 +5,22 @@ Created on May 5, 2013
 '''
 from windy_tales.flat_file.header_parser import HeaderParser
 import os
-from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
 from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 import unittest
+from windy_tales.exceptions.exceptions import HeaderFileNotFound
+from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
 
 
 class TestHeaderParser(UnitTestWithMongoDB):
-    
+
     def setUp(self):
         with WindyDbConnection() as connection:
             headerParsed = HeaderfileParsedTemplate(connection)
             headerParsed.remove()
+
+    def test_get_template_with_invalid_name(self):
+        self.assertRaises(HeaderFileNotFound, HeaderParser.get_template, 'invalid')
 
     def test_generate_tempate_from_sample(self):
         here = os.path.abspath(os.path.dirname(__file__))
