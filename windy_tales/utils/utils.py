@@ -9,12 +9,12 @@ import errno
 
 def read_file(file_name):
     '''
-    Read and return content of a file in file system
+    Read and return list of content of a file in file system
     '''
     if os.path.exists(file_name) is False:
         raise IOError
     with open(file_name, 'r') as reader:
-        content = reader.read()
+        content = reader.readlines()
     return content
 
 

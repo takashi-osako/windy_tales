@@ -9,10 +9,12 @@ class HeaderfileParsedTemplate(BaseCollection):
         BaseCollection.__init__(self, mongoOperationManager=MongoOperationManager(connection), name=name)
 
     def save(self, data_name, data, version, currentDatetime=datetime.datetime.utcnow()):
-        uuid = uuid4()
+        uuid = str(uuid4())
         document = {"_id": uuid, "name": data_name, "version": version, "update": currentDatetime, "metadata": data}
         return BaseCollection.save(self, document)
 
     def find_by_name(self, name):
         document = {"name": name}
-        return BaseCollection.find(self, document)
+        list = BaseCollection.find(self, document)
+        if list:
+            return list[0]

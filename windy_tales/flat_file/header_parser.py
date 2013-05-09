@@ -6,8 +6,10 @@ Created on May 5, 2013
 import os
 from pycparser import parse_file
 import copy
-from pycparser.c_ast import ArrayDecl, IdentifierType, Struct,\
+from pycparser.c_ast import ArrayDecl, IdentifierType, Struct, \
     TypeDecl
+from windy_tales.database.connection import WindyDbConnection
+from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 
 
 class HeaderParser():
@@ -15,11 +17,6 @@ class HeaderParser():
     Parser for C header file
     Parses to json format
     '''
-
-    # Just make these everything static for now
-    # Parsed_template is an ordered dictionary
-    parsed_template = None
-    ast = None
 
     @staticmethod
     def generate_tempate(file_name=None):
@@ -29,14 +26,18 @@ class HeaderParser():
             here = os.path.abspath(os.path.dirname(__file__))
             file_name = os.path.join(here, '..', 'resources', 'test.h')
 
-        HeaderParser.__parse_c_header_file(file_name)
+        return HeaderParser.__parse_c_header_file(file_name)
 
     @staticmethod
-    def get_template():
+    def get_template(name):
         '''
-        Return a deep copy version of it
+        Return read from mongoDB
         '''
-        return copy.deepcopy(HeaderParser.parsed_template)
+        with WindyDbConnection() as connection:
+            headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
+            json = headerFileParsedTemplate.find_by_name(name)
+            result = json.get('metadata')
+        return result
 
     @staticmethod
     def __parse_c_header_file(file_name):
@@ -46,18 +47,15 @@ class HeaderParser():
         os.environ['PATH'] += os.pathsep + '/usr/bin'
 
         # Calls pycparser to precompile and parse the C header file
-        HeaderParser.ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp')
+        ast = parse_file(file_name, use_cpp=True, cpp_path='/usr/bin/cpp')
         # Prints out parsed file structure for debugging
-        #HeaderParser.ast.show(attrnames=True, nodenames=True)
+        # HeaderParser.ast.show(attrnames=True, nodenames=True)
 
         # Theoretically there should only be one struct per header file
-        if len(HeaderParser.ast.ext) > 1:
+        if len(ast.ext) > 1:
             print("Warning, header file has more than 1 struct.  Only the first one will be used")
 
-        result = HeaderParser.__parse_ast_to_json(HeaderParser.ast.ext[0])
-
-        # result is an ordered dictionary
-        HeaderParser.parsed_template = result
+        return HeaderParser.__parse_ast_to_json(ast.ext[0])
 
     @staticmethod
     def __parse_ast_to_json(node):
