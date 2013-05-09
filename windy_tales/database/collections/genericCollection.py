@@ -25,6 +25,6 @@ class GenericCollection(BaseCollection):
         super(GenericCollection, self).__init__(mongoOperationManager=MongoOperationManager(connection), name=name)
 
     def save(self, data, currentDatetime=datetime.datetime.utcnow()):
-        uuid = uuid4()
+        uuid = str(uuid4())
         document = {"_id": uuid, "update": currentDatetime, "metadata": data}
         return BaseCollection.save(self, document)

@@ -31,10 +31,10 @@ class TestParser(UnitTestWithMongoDB):
         value = flat_to_json('sample', flat_content)
         self.assertIsNotNone(value)
 
-        self.assertEquals(value['book']['title'], 'Book Name')
-        self.assertEquals(value['book']['description'], 'my desc')
-        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
-        self.assertEquals(value['book']['ack'][1]['name'], 'Ben')
+        self.assertEquals(value['book'][0]['title'], 'Book Name')
+        self.assertEquals(value['book'][1]['description'], 'my desc')
+        self.assertEquals(value['book'][2]['ack'][0][0]['name'], 'Alex')
+        self.assertEquals(value['book'][2]['ack'][1][0]['name'], 'Ben')
 
     def test_flat_file_to_json_with_truncated_flat_file(self):
         here = os.path.abspath(os.path.dirname(__file__))
@@ -42,10 +42,10 @@ class TestParser(UnitTestWithMongoDB):
         flat_content=read_file(file_name)
         value = flat_to_json('sample', flat_content)
 
-        self.assertEquals(value['book']['title'], 'MyBook')
-        self.assertEquals(value['book']['description'], '')
-        self.assertEquals(value['book']['ack'][0]['name'], '')
-        self.assertEquals(value['book']['ack'][1]['name'], '')
+        self.assertEquals(value['book'][0]['title'], 'MyBook')
+        self.assertEquals(value['book'][1]['description'], '')
+        self.assertEquals(value['book'][2]['ack'][0][0]['name'], '')
+        self.assertEquals(value['book'][2]['ack'][1][0]['name'], '')
 
     def test_flat_file_to_json_with_extra_characters_in_flat(self):
         here = os.path.abspath(os.path.dirname(__file__))
@@ -53,8 +53,8 @@ class TestParser(UnitTestWithMongoDB):
         flat_content=read_file(file_name)
         value = flat_to_json('sample', flat_content)
 
-        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
-        self.assertEquals(value['book']['ack'][1]['name'], 'Benjam')
+        self.assertEquals(value['book'][2]['ack'][0][0]['name'], 'Alex')
+        self.assertEquals(value['book'][2]['ack'][1][0]['name'], 'Benjam')
 
 
 if __name__ == "__main__":

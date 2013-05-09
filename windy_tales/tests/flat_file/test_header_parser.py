@@ -22,8 +22,8 @@ class TestHeaderParser(UnitTestWithMongoDB):
             headerParsed.save(data_name='sample', data=json, version=0)
         template = HeaderParser.get_template('sample')
 
-        self.assertEquals(template['book']['title'], 10)
-        self.assertEquals(template['book']['ack'][1]['name'], 6)
+        self.assertEquals(template['book'][0]['title'], 10)
+        self.assertEquals(template['book'][2]['ack'][0][0]['name'], 6)
 
     def test_generate_template_unsupported_header_file(self):
         here = os.path.abspath(os.path.dirname(__file__))
@@ -34,8 +34,8 @@ class TestHeaderParser(UnitTestWithMongoDB):
             headerParsed.save(data_name='sample', data=json, version=0)
         template = HeaderParser.get_template('sample')
 
-        self.assertEquals(template['book']['title'], 10)
-        self.assertEquals(len(template['book'].keys()), 1)
+        self.assertEquals(template['book'][0]['title'], 10)
+        self.assertEquals(len(template['book']), 1)
 
 
 if __name__ == "__main__":
