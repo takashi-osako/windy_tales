@@ -19,12 +19,14 @@ def flat_to_json(flat_name, flat_content):
     if len(rtn_content) != 0:
         print ("non zero flat file content. Remaining Content: ", rtn_content)
 
-    return rtn_result
+    result = convert_to_unordered_json(rtn_result)
+
+    return result
 
 
 def __fill_values_with_content(json_obj, flat_content):
     '''
-    Given a ordered dict generated based on interpretation of header file, and the content of the flat file,
+    Given a json interpretation of header file, and the content of the flat file,
     Returns a json ordered dict with values filled in from content in flat file
     '''
     if type(json_obj) is list:
@@ -46,3 +48,28 @@ def __fill_values_with_content(json_obj, flat_content):
                 (json_obj[key], flat_content) = __fill_values_with_content(value, flat_content)
 
     return (json_obj, flat_content)
+
+
+def convert_to_unordered_json(data):
+    '''
+    Converts List-Json back to Json (to unpreserve ordering)
+    '''
+    result = {}
+    if type(data) is list:
+        for i in range(len(data)):
+            value = convert_to_unordered_json(data[i])
+            if (type(data[i]) is dict) or (type(result) is dict and len(result.keys()) > 0):
+                key = value.keys()[0]
+                result[key] = value[key]
+            else:
+                if type(result) is not list:
+                    result = []
+                result.append(value)
+    else:
+        for (key, value) in data.items():
+            result[key] = {}
+            if type(value) is str:
+                result[key] = value
+            else:
+                result[key] = convert_to_unordered_json(value)
+    return result

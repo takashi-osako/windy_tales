@@ -10,6 +10,7 @@ from windy_tales.utils.archive import achive_file
 import os
 from windy_tales.flat_file.parser import flat_to_json
 from windy_tales.utils.utils import read_file
+import json
 
 
 class WatcherEventHandler(FileSystemEventHandler):
@@ -34,7 +35,7 @@ class WatcherEventHandler(FileSystemEventHandler):
                     with WindyDbConnection() as connection:
                         genericCollection = GenericCollection(connection, data_name)
                         genericCollection.save(json_format)
-                    print(json_format)
+                    print(json.dumps(json_format))
 
                 # archive the file
                 achive_file(event.dest_path)

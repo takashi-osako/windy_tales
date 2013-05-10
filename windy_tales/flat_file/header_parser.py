@@ -69,7 +69,7 @@ class HeaderParser():
             char address_line1[20];
             char country[2];
         };
-        generates the following ordered dict: {"address": {"address_line1": 20, "country": 2}}
+        generates the following ordered dict: {"address": [{"address_line1": 20}, {"country": 2}]}
         '''
         result = {}
         node_type = node.type
