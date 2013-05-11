@@ -39,8 +39,7 @@ class WatcherEventHandler(FileSystemEventHandler):
                             doc_id = genericCollection.save(json_format)
 
                             # TODO: TEMP:  template json from flat file data
-                            data = genericCollection.find_one_by_id(doc_id['_id'])
-                            template_json(data)
+                            template_json(doc_id['_id'], data_name, None)
 
                         print(json.dumps(json_format))
                     # archive the file
