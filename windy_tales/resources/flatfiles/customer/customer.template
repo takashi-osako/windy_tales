@@ -1,0 +1,5 @@
+{{customer.customer_name}}
+{{customer.customer_no}}
+{{customer.address1}}
+{{customer.city}}, {{customer.state}}
+{{customer.country}} {{customer.zip}}
