@@ -21,13 +21,13 @@ class Test(UnitTestWithMongoDB):
             supplier_data = {}
             supplier_data['supplier_no'] = '0000000001'
             supplier_data['name'] = 'name1'
-            supplier.save(supplier_data)
+            supplier.save({'Supplier':supplier_data})
             supplier_data = {}
             supplier_data['supplier_no'] = '0000000002'
             supplier_data['name'] = 'name2'
-            supplier.save(supplier_data)
+            supplier.save({'Supplier':supplier_data})
         data = aggregate_for_transaction({'transheader':transaction})
-        self.assertEqual('name1', data['supplier']['name'])
+        self.assertEqual('name1', data['transheader']['Supplier']['name'])
 
 
 if __name__ == "__main__":
