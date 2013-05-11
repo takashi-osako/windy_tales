@@ -13,7 +13,7 @@ from windy_tales.flat_file.header_parser import HeaderParser
 from cloudy_tales.database.client import create_db_client
 from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
-from cloudy_tales.database.MongoOperationManager import MongoOperationManager
+from cloudy_tales.data_fusion.translate import generate_templated_json
 
 watcher = Watcher('/tmp/lz')
 
