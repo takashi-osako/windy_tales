@@ -11,6 +11,7 @@ import os
 from windy_tales.flat_file.parser import flat_to_json
 from windy_tales.utils.utils import read_file
 import json
+from windy_tales.exceptions.exceptions import HeaderFileNotFound
 
 
 class WatcherEventHandler(FileSystemEventHandler):
@@ -23,19 +24,21 @@ class WatcherEventHandler(FileSystemEventHandler):
             file_name, file_ext = os.path.splitext(event.dest_path)
             if file_ext == '.flat':
                 print("File renamed in LZ: " + event.dest_path)
+                try:
+                    # New file is received, convert flat file to json format
+                    flat_contents = read_file(event.dest_path)
+                    for flat_content in flat_contents:
+                        # read first 20 chracters as data name
+                        data_name = flat_content[0:20].strip()
+                        content = flat_content[20:]
+                        json_format = flat_to_json(data_name, content)
 
-                # New file is received, convert flat file to json format
-                flat_contents = read_file(event.dest_path)
-                for flat_content in flat_contents:
-                    # read first 20 chracters as data name
-                    data_name = flat_content[0:20].strip()
-                    content = flat_content[20:]
-                    json_format = flat_to_json(data_name, content)
+                        with WindyDbConnection() as connection:
+                            genericCollection = GenericCollection(connection, data_name)
+                            genericCollection.save(json_format)
+                        print(json.dumps(json_format))
 
-                    with WindyDbConnection() as connection:
-                        genericCollection = GenericCollection(connection, data_name)
-                        genericCollection.save(json_format)
-                    print(json.dumps(json_format))
-
-                # archive the file
-                achive_file(event.dest_path)
+                    # archive the file
+                    achive_file(event.dest_path)
+                except HeaderFileNotFound as e:
+                    print('Header template: %s not found' % data_name)
