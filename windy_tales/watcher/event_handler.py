@@ -13,6 +13,7 @@ from windy_tales.utils.utils import read_file
 import json
 from windy_tales.exceptions.exceptions import HeaderFileNotFound
 from windy_tales.data_fusion import template_json
+from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 
 
 class WatcherEventHandler(FileSystemEventHandler):
@@ -35,12 +36,24 @@ class WatcherEventHandler(FileSystemEventHandler):
                         json_format = flat_to_json(data_name, content)
 
                         with WindyDbConnection() as connection:
-                            genericCollection = GenericCollection(connection, data_name)
+                            # find data collection
+                            try:
+                                collection_module = __import__('windy_tales.database.collections.' + data_name.lower(), globals(), locals(), [data_name])
+                                if collection_module:
+                                    genericCollection = getattr(collection_module, data_name)(connection)
+                                else:
+                                    genericCollection = GenericCollection(connection, data_name)
+                            except:
+                                genericCollection = GenericCollection(connection, data_name)
                             doc_id = genericCollection.save(json_format)
 
                             # TODO: TEMP:  template json from flat file data
                             template_json(doc_id['_id'], data_name, None)
 
+                        # if data is transheader, then aggregate data for Data Fusion Service
+                        if data_name == "transheader":
+                            json_format = aggregate_for_transaction(json_format)
+                                
                         print(json.dumps(json_format))
                     # archive the file
                     achive_file(event.dest_path)

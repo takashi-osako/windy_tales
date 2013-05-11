@@ -54,7 +54,7 @@ def load_template():
         for header_file in header_files:
             file_name = os.path.join(here, 'resources', header_file)
             json = HeaderParser.generate_tempate(file_name)
-            headerFileParsedTemplate.save(data_name=header_file[:-2], data=json, version=1)
+            headerFileParsedTemplate.save(data_name=json.keys()[0], data=json, version=1)
 
 if __name__ == '__main__':
     main()

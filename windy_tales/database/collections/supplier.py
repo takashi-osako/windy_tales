@@ -9,12 +9,13 @@ from windy_tales.database.collections.genericCollection import GenericCollection
 
 class Supplier(GenericCollection):
     def __init__(self, connection):
-        self.__name = 'supplier'
+        self.__name = 'Supplier'
         super(Supplier, self).__init__(connection=connection, name=self.__name)
 
     def save(self, data):
-        key = {'supplier_no': data['supplier_no']}
-        super(Supplier, self).save({self.__name: data}, key_data=key)
+        for k in self.get_keys():
+            key = {k: data[self.__name][k]}
+        return super(Supplier, self).save(data, key_data=key)
 
     def find_by_keys(self, keys):
         if keys is None:
@@ -24,7 +25,8 @@ class Supplier(GenericCollection):
         for k in ks:
             key_data['key_data.' + k] = keys[k]
         doc = super(Supplier, self).find_one(key_data)
-        return doc['metadata']
+        if doc:
+            return doc['metadata']
 
     def get_keys(self):
         '''

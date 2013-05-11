@@ -1,4 +1,4 @@
-struct supplier{
+struct Supplier{
     char supplier_no[10],
     supplier_name[30],
     name1[25],

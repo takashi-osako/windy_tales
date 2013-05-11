@@ -13,11 +13,14 @@ def aggregate_for_transaction(data):
     supplier
     '''
     with WindyDbConnection() as connection:
-        #find supplier and aggrigate the data
+        # find supplier and aggrigate the data
         supplier = Supplier(connection)
         supplier_keys = supplier.get_keys()
-        key_data={}
+        key_data = {}
         for supplier_key in supplier_keys:
             key_data[supplier_key] = data['transheader'][supplier_key]
-        data['supplier']=supplier.find_by_keys(key_data)
+        transheader = data['transheader']
+        supplier_data = supplier.find_by_keys(key_data)
+        for name in supplier_data.keys():
+            transheader[name] = supplier_data[name]
     return data;
