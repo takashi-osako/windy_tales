@@ -16,7 +16,7 @@ class Test(UnitTestWithMongoDB):
         with WindyDbConnection() as connection:
             supplier = Supplier(connection)
             supplier.save(supplier_data)
-            doc = supplier.find_by_supplier_no('0000000001')
+            doc = supplier.find_by_keys({'supplier_no':'0000000001'})
         self.assertEquals(doc['name'], 'myname')
 
 if __name__ == "__main__":
