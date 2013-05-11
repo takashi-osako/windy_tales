@@ -49,7 +49,7 @@ def signal_handler(signal, frame):
 
 
 def load_template():
-    header_files = ['test.h']
+    header_files = ['transheader.h', 'transproduct.h', 'supplier.h', 'customer.h', 'account.h']
     here = os.path.abspath(os.path.dirname(__file__))
     with WindyDbConnection() as connection:
         headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
