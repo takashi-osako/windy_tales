@@ -7,6 +7,6 @@ struct supplier{
     address2[25],
     city[25],
     state[2],
-    zip[10],
+    zip[5],
     country[2];
 };
