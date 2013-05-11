@@ -12,6 +12,7 @@ from windy_tales.flat_file.parser import flat_to_json
 from windy_tales.utils.utils import read_file
 import json
 from windy_tales.exceptions.exceptions import HeaderFileNotFound
+from windy_tales.data_fusion import template_json
 
 
 class WatcherEventHandler(FileSystemEventHandler):
@@ -35,10 +36,17 @@ class WatcherEventHandler(FileSystemEventHandler):
 
                         with WindyDbConnection() as connection:
                             genericCollection = GenericCollection(connection, data_name)
-                            genericCollection.save(json_format)
-                        print(json.dumps(json_format))
+                            doc_id = genericCollection.save(json_format)
 
+                            # TODO: TEMP:  template json from flat file data
+                            data = genericCollection.find_one_by_id(doc_id['_id'])
+                            template_json(data)
+
+                        print(json.dumps(json_format))
                     # archive the file
                     achive_file(event.dest_path)
+
                 except HeaderFileNotFound as e:
                     print('Header template: %s not found' % data_name)
+                except Exception as e:
+                    print(e)
