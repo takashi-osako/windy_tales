@@ -68,6 +68,7 @@ def clear_data():
             colleciton = GenericCollection(connection=connection, name=target)
             colleciton.remove()
 
+
 def load_flatfile_data():
     flatfiles = ['supplier/supplier.flat', 'customer/customer.flat', 'account/account.flat']
     here = os.path.abspath(os.path.dirname(__file__))
