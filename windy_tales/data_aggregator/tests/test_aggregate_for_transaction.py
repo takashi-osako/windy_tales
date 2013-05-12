@@ -26,8 +26,8 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
             supplier_data['supplier_no'] = '0000000002'
             supplier_data['name'] = 'name2'
             supplier.save({'Supplier': supplier_data})
-        data = aggregate_for_transaction({'transheader': transaction})
-        self.assertEqual('name1', data['transheader']['Supplier']['name'])
+        data = aggregate_for_transaction({'Transheader': transaction})
+        self.assertEqual('name1', data['Transheader']['Supplier']['name'])
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-struct transheader {
+struct Transheader {
     char supplier_no[10],
          customer_no[10],
          account_no[10],

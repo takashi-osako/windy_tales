@@ -36,7 +36,7 @@ def load_data_from_flatfile(filename):
             template_json(doc_id['_id'], data_name, None)
 
         # if data is transheader, then aggregate data for Data Fusion Service
-        if data_name == "transheader":
+        if data_name == "Transheader":
             json_format = aggregate_for_transaction(json_format)
         print("#####")
         print(json.dumps(json_format))
