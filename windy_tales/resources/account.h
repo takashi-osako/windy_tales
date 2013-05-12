@@ -1,5 +1,7 @@
-struct account{
-    char account_no[10],
+struct Account{
+    char suppleir_no[10],
+    customer_no[10],
+    account_no[10],
     account_name[30],
     name1[25],
     name2[25],

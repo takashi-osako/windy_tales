@@ -62,17 +62,17 @@ def load_template():
 
 
 def clear_data():
-    targets = ['Supplier']
+    targets = ['Supplier','Customer']
     with WindyDbConnection() as connection:
         for target in targets:
             colleciton = GenericCollection(connection=connection, name=target)
             colleciton.remove()
 
 def load_flatfile_data():
-    flatfiles = ['flatfiles/supplier/supplier.flat']
+    flatfiles = ['supplier/supplier.flat', 'customer/customer.flat']
     here = os.path.abspath(os.path.dirname(__file__))
     for flatfile in flatfiles:
-        file_name = os.path.join(here, 'resources', flatfile)
+        file_name = os.path.join(here, 'resources', 'flatfiles', flatfile)
         print(file_name)
         load_data_from_flatfile(file_name)
 

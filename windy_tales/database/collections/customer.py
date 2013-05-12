@@ -7,16 +7,16 @@ from windy_tales.database.collections.genericCollection import GenericCollection
     GenericCollectionException
 
 
-class Supplier(GenericCollection):
+class Customer(GenericCollection):
     def __init__(self, connection):
-        self.__name = 'Supplier'
-        super(Supplier, self).__init__(connection=connection, name=self.__name)
+        self.__name = 'Customer'
+        super(Customer, self).__init__(connection=connection, name=self.__name)
 
     def save(self, data):
         key = {}
         for k in self.get_keys():
             key[k] = data[self.__name][k]
-        return super(Supplier, self).save(data, key_data=key)
+        return super(Customer, self).save(data, key_data=key)
 
     def find_by_keys(self, keys):
         if keys is None:
@@ -25,7 +25,7 @@ class Supplier(GenericCollection):
         key_data = {}
         for k in ks:
             key_data['key_data.' + k] = keys[k]
-        doc = super(Supplier, self).find_one(key_data)
+        doc = super(Customer, self).find_one(key_data)
         if doc:
             return doc['metadata']
 
@@ -33,4 +33,4 @@ class Supplier(GenericCollection):
         '''
         return fieldname that uses for the key of Supplier
         '''
-        return ['supplier_no']
+        return ['supplier_no', 'customer_no']

@@ -38,5 +38,7 @@ def load_data_from_flatfile(filename):
         # if data is transheader, then aggregate data for Data Fusion Service
         if data_name == "transheader":
             json_format = aggregate_for_transaction(json_format)
+        print("#####")
         print(json.dumps(json_format))
+        print("#####")
     return json_format
