@@ -6,12 +6,12 @@ Created on May 11, 2013
 from windy_tales.database.collections.generic_collection import GenericCollection
 
 
-class Account(GenericCollection):
+class Terminal(GenericCollection):
     def __init__(self, connection):
-        super(Account, self).__init__(connection=connection, name='Account')
+        super(Terminal, self).__init__(connection=connection, name='Terminal')
 
     def get_keys(self):
         '''
-        return fieldname that uses for the key
+        return fieldname that uses for the key 
         '''
-        return ['supplier_no', 'customer_no', 'account_no']
+        return ['term_id']

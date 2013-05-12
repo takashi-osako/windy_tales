@@ -50,7 +50,7 @@ def signal_handler(signal, frame):
 
 
 def load_template():
-    header_files = ['transheader.h', 'transproduct.h', 'supplier.h', 'customer.h', 'account.h']
+    header_files = ['transheader.h', 'transproduct.h', 'supplier.h', 'customer.h', 'account.h', 'terminal.h']
     here = os.path.abspath(os.path.dirname(__file__))
     with WindyDbConnection() as connection:
         headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
@@ -62,7 +62,7 @@ def load_template():
 
 
 def clear_data():
-    targets = ['Supplier', 'Customer', 'Account']
+    targets = ['Supplier', 'Customer', 'Account', 'Terminal']
     with WindyDbConnection() as connection:
         for target in targets:
             colleciton = GenericCollection(connection=connection, name=target)
@@ -70,7 +70,7 @@ def clear_data():
 
 
 def load_flatfile_data():
-    flatfiles = ['supplier/supplier.flat', 'customer/customer.flat', 'account/account.flat']
+    flatfiles = ['supplier/supplier.flat', 'customer/customer.flat', 'account/account.flat', 'terminal/terminal.flat']
     here = os.path.abspath(os.path.dirname(__file__))
     for flatfile in flatfiles:
         file_name = os.path.join(here, 'resources', 'flatfiles', flatfile)
