@@ -1,5 +1,5 @@
 struct Account{
-    char suppleir_no[10],
+    char supplier_no[10],
     customer_no[10],
     account_no[10],
     account_name[30],
