@@ -62,7 +62,7 @@ def load_template():
 
 
 def clear_data():
-    targets = ['Supplier', 'Customer', 'Account', 'Terminal']
+    targets = ['Supplier', 'Customer', 'Account', 'Terminal', 'Transheader']
     with WindyDbConnection() as connection:
         for target in targets:
             colleciton = GenericCollection(connection=connection, name=target)
