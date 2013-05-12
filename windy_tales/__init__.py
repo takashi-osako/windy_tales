@@ -15,7 +15,7 @@ from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 from cloudy_tales.data_fusion.translate import generate_templated_json
 from windy_tales.utils.data_loader import load_data_from_flatfile
-from windy_tales.database.collections.genericCollection import GenericCollection
+from windy_tales.database.collections.generic_collection import GenericCollection
 
 watcher = Watcher('/tmp/lz')
 

@@ -6,7 +6,7 @@ Created on May 11, 2013
 from windy_tales.utils.utils import read_file
 from windy_tales.flat_file.parser import flat_to_json
 from windy_tales.database.connection import WindyDbConnection
-from windy_tales.database.collections.genericCollection import GenericCollection
+from windy_tales.database.collections.generic_collection import GenericCollection
 from windy_tales.data_fusion import template_json
 from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 import json

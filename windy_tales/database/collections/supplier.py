@@ -3,8 +3,8 @@ Created on May 11, 2013
 
 @author: tosako
 '''
-from windy_tales.database.collections.genericCollection import GenericCollection, \
-    GenericCollectionException
+from windy_tales.database.collections.generic_collection import GenericCollection
+from windy_tales.exceptions.exceptions import GenericCollectionException
 
 
 class Supplier(GenericCollection):

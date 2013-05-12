@@ -21,3 +21,14 @@ class HeaderFileNotFound(WindyError):
 
     def __str__(self):
         return repr(self.name)
+
+
+class GenericCollectionException(WindyError):
+    '''
+    Exceptions related to generic collection
+    '''
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)

@@ -17,8 +17,8 @@ class TestHeaderFileParsedTemplate(UnitTestWithMongoDB):
         with WindyDbConnection() as connection:
             collection = HeaderfileParsedTemplate(connection)
             mydatetime = datetime.datetime.utcnow()
-            id = collection.save(data_name="myheadername", data=data, version="1", currentDatetime=mydatetime)
-        self.assertIsNotNone(id)
+            doc_id = collection.save(data_name="myheadername", data=data, version="1", currentDatetime=mydatetime)
+        self.assertIsNotNone(doc_id)
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']

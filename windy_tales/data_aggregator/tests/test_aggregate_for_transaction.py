@@ -10,7 +10,7 @@ from windy_tales.database.collections.supplier import Supplier
 from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 
 
-class Test(UnitTestWithMongoDB):
+class TestAggregateForTransaction(UnitTestWithMongoDB):
 
     def test_find_supplier_from_transaction(self):
         transaction = {}

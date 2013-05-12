@@ -4,7 +4,7 @@ Created on May 11, 2013
 @author: dorisip
 '''
 from cloudy_tales.database.connectionManager import DbConnectionManager
-from windy_tales.database.collections.genericCollection import GenericCollection
+from windy_tales.database.collections.generic_collection import GenericCollection
 import json
 from bson import json_util
 from cloudy_tales.data_fusion.translate import generate_templated_json

@@ -6,14 +6,7 @@ Created on Apr 7, 2013
 from cloudy_tales.database.collections.base import BaseCollection
 import datetime
 from uuid import uuid4
-
-
-class GenericCollectionException(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
+from windy_tales.exceptions.exceptions import GenericCollectionException
 
 
 class GenericCollection(BaseCollection):
