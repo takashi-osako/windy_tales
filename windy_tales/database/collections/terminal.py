@@ -12,6 +12,6 @@ class Terminal(GenericCollection):
 
     def get_keys(self):
         '''
-        return fieldname that uses for the key 
+        return fieldname that uses for the key
         '''
         return ['term_id']

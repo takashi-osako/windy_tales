@@ -10,6 +10,7 @@ from windy_tales.database.collections.supplier import Supplier
 from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 from windy_tales.database.collections.customer import Customer
 from windy_tales.database.collections.account import Account
+from windy_tales.database.collections.terminal import Terminal
 
 
 class TestAggregateForTransaction(UnitTestWithMongoDB):
@@ -20,6 +21,7 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
         transaction['supplier_no'] = '0000000001'
         transaction['customer_no'] = '0000000001'
         transaction['account_no'] = '0000000001'
+        transaction['term_id'] = '0000001'
 
         with WindyDbConnection() as connection:
             supplier = Supplier(connection)
@@ -35,7 +37,7 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
             customer = Customer(connection)
             customer_data = {}
             customer_data['customer_no'] = '0000000001'
-            customer_data['supplier_no'] = supplier_data['supplier_no']
+            customer_data['supplier_no'] = '0000000001'
             customer_data['customer_name'] = 'name'
             customer_data['name1'] = 'name1'
             customer_data['name2'] = 'name2'
@@ -63,9 +65,22 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
             account_data['zip'] = '12345'
             account.save({'Account': account_data})
 
+            terminal = Terminal(connection)
+            terminal_data = {}
+            terminal_data['term_id'] = '0000001'
+            terminal_data['name'] = 'name'
+            terminal_data['addr1'] = 'address'
+            terminal_data['city'] = 'city'
+            terminal_data['state'] = 'NY'
+            terminal_data['zip'] = '99999'
+            terminal.save({'Terminal': terminal_data})
+
         data = aggregate_for_transaction({'Transheader': transaction})
         self.assertEqual('name1', data['Transheader']['Supplier']['name'])
-        # TODO check the other types
+        self.assertEquals('90210', data['Transheader']['Customer']['zip'])
+        self.assertEquals('ny', data['Transheader']['Account']['state'])
+        self.assertEquals('99999', data['Transheader']['Terminal']['zip'])
+
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']

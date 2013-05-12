@@ -12,6 +12,6 @@ class Transheader(GenericCollection):
 
     def get_keys(self):
         '''
-        return fieldname that uses for the key 
+        return fieldname that uses for the key
         '''
         return ['trans_ref_no']
