@@ -42,17 +42,17 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--flat", help="set flat file id. Required")
     parser.add_argument("-t", "--template", help="set custom template id")
 
-    args= parser.parse_args()
+    args = parser.parse_args()
 
     __flat_id = args.flat
     __template_id = args.template
     __data_name = args.data_name
-    
+
     if __flat_id and __data_name:
         # initialize mongodb
         create_db_client()
         windy_tales.load_template()
-    
+
         template_json(__flat_id, __data_name, __template_id)
     else:
         print ("Please provide flat file id and data name")

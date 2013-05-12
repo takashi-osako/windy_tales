@@ -22,4 +22,4 @@ def aggregate_for_transaction(data):
         transheader = data['transheader']
         supplier_data = supplier.find_by_keys(key_data)
         transheader[supplier.getName()] = supplier_data
-    return data;
+    return data

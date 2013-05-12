@@ -25,6 +25,7 @@ def main():
     # initialize mongodb
     create_db_client()
     load_template()
+    load_data()
 
     watcher.watch_dir()
     signal.signal(signal.SIGTERM, signal_handler)
@@ -55,6 +56,11 @@ def load_template():
             file_name = os.path.join(here, 'resources', header_file)
             json = HeaderParser.generate_tempate(file_name)
             headerFileParsedTemplate.save(data_name=json.keys()[0], data=json, version=1)
+
+
+def load_data():
+    pass
+
 
 if __name__ == '__main__':
     main()
