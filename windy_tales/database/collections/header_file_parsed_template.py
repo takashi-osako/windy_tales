@@ -14,6 +14,6 @@ class HeaderfileParsedTemplate(BaseCollection):
 
     def find_by_name(self, name):
         document = {"name": name}
-        list = BaseCollection.find(self, document)
-        if list:
-            return list[0]
+        result = BaseCollection.find(self, document)
+        if result:
+            return result[0]
