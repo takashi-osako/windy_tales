@@ -5,12 +5,12 @@ Created on May 11, 2013
 '''
 from windy_tales.utils.utils import read_file
 from windy_tales.flat_file.parser import flat_to_json
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.generic_collection import GenericCollection
 from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 import json
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.utils.getTemplate import get_template
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 def load_data_from_flatfile(filename):
@@ -21,7 +21,7 @@ def load_data_from_flatfile(filename):
         content = flat_content[20:]
         json_format = flat_to_json(data_name, content)
 
-        with WindyDbConnection() as connection:
+        with DbConnectionManager() as connection:
             # find data collection
             try:
                 collection_module = __import__('windy_tales.database.collections.' + data_name.lower(), globals(), locals(), [data_name])
@@ -37,7 +37,7 @@ def load_data_from_flatfile(filename):
         if data_name == "Transheader":
             json_format = aggregate_for_transaction(json_format)
             # TODO: TEMP:  template json from flat file data
-            template=get_template('test')
+            template = get_template('test')
             combine_template_with_data(template=template, data=json_format, write_to_file=True)
 
         print("#####")

@@ -5,12 +5,12 @@ Created on May 11, 2013
 '''
 import unittest
 from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.supplier import Supplier
 from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 from windy_tales.database.collections.customer import Customer
 from windy_tales.database.collections.account import Account
 from windy_tales.database.collections.terminal import Terminal
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 class TestAggregateForTransaction(UnitTestWithMongoDB):
@@ -23,7 +23,7 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
         transaction['account_no'] = '0000000001'
         transaction['term_id'] = '0000001'
 
-        with WindyDbConnection() as connection:
+        with DbConnectionManager() as connection:
             supplier = Supplier(connection)
             supplier_data = {}
             supplier_data['supplier_no'] = '0000000001'

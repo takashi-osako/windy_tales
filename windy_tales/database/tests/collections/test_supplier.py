@@ -5,15 +5,15 @@ Created on May 11, 2013
 '''
 import unittest
 from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.supplier import Supplier
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 class Test(UnitTestWithMongoDB):
 
     def test_get_data_by_supplier_no(self):
         supplier_data = {'supplier_no': '0000000001', 'name': 'myname'}
-        with WindyDbConnection() as connection:
+        with DbConnectionManager() as connection:
             supplier = Supplier(connection)
             supplier.save({'Supplier': supplier_data})
             doc = supplier.find_by_keys({'supplier_no': '0000000001'})

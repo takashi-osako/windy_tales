@@ -7,14 +7,14 @@ import unittest
 from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 import datetime
-from windy_tales.database.connection import WindyDbConnection
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 class TestHeaderFileParsedTemplate(UnitTestWithMongoDB):
 
     def testSave(self):
         data = {"address1": 10, "city": 5, "zip": 5}
-        with WindyDbConnection() as connection:
+        with DbConnectionManager() as connection:
             collection = HeaderfileParsedTemplate(connection)
             mydatetime = datetime.datetime.utcnow()
             doc_id = collection.save(data_name="myheadername", data=data, version="1", currentDatetime=mydatetime)

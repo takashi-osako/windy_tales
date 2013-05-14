@@ -11,11 +11,11 @@ import time
 import sys
 from windy_tales.flat_file.header_parser import HeaderParser
 from cloudy_tales.database.client import create_db_client
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 from cloudy_tales.data_fusion.translate import generate_templated_json
 from windy_tales.utils.data_loader import load_data_from_flatfile
 from windy_tales.database.collections.generic_collection import GenericCollection
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 watcher = Watcher('/tmp/lz')
 
@@ -25,7 +25,7 @@ def main():
     Initializes watcher to monitor landing zone
     '''
     # initialize mongodb
-    create_db_client()
+    create_db_client(db_name='DUMBO')
     load_template()
     clear_data()
     load_flatfile_data()
@@ -52,7 +52,7 @@ def signal_handler(signal, frame):
 def load_template():
     header_files = ['transheader.h', 'transproduct.h', 'supplier.h', 'customer.h', 'account.h', 'terminal.h']
     here = os.path.abspath(os.path.dirname(__file__))
-    with WindyDbConnection() as connection:
+    with DbConnectionManager() as connection:
         headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
         headerFileParsedTemplate.remove()
         for header_file in header_files:
@@ -63,7 +63,7 @@ def load_template():
 
 def clear_data():
     targets = ['Supplier', 'Customer', 'Account', 'Terminal', 'Transheader']
-    with WindyDbConnection() as connection:
+    with DbConnectionManager() as connection:
         for target in targets:
             colleciton = GenericCollection(connection=connection, name=target)
             colleciton.remove()

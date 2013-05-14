@@ -10,18 +10,17 @@ from bson import json_util
 from cloudy_tales.data_fusion.translate import generate_templated_json
 from cloudy_tales.utils.exporter import export
 import argparse
-from windy_tales.database.connection import WindyDbConnection
 from cloudy_tales.database.client import create_db_client
 import windy_tales
 
 
 def template_json(flat_id, data_name, template_id=None):
-    with WindyDbConnection() as connection:
+    with DbConnectionManager() as connection:
         genericCollection = GenericCollection(connection, data_name)
         data = genericCollection.find_one_by_id(flat_id)
 
     # Temporary template the flat file's data and save to /tmp/template.json
-    with DbConnectionManager('sunny') as sunny_connection:
+    with DbConnectionManager() as sunny_connection:
         template_col = GenericCollection(sunny_connection, 'templates')
         if template_id:
             templ = template_col.find_one_by_id(template_id)

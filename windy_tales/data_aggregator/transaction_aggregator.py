@@ -3,11 +3,11 @@ Created on May 11, 2013
 
 @author: tosako
 '''
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.supplier import Supplier
 from windy_tales.database.collections.customer import Customer
 from windy_tales.database.collections.account import Account
 from windy_tales.database.collections.terminal import Terminal
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 def aggregate_for_transaction(data):
@@ -15,7 +15,7 @@ def aggregate_for_transaction(data):
     aggregate transaction data with
     supplier
     '''
-    with WindyDbConnection() as connection:
+    with DbConnectionManager() as connection:
         # find supplier and aggrigate the data
         # refactor: make it database driven
         transheader = data['Transheader']

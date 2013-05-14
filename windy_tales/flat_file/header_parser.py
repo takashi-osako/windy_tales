@@ -8,9 +8,9 @@ from pycparser import parse_file
 import copy
 from pycparser.c_ast import ArrayDecl, IdentifierType, Struct, \
     TypeDecl
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
 from windy_tales.exceptions.exceptions import HeaderFileNotFound
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 class HeaderParser():
@@ -34,7 +34,7 @@ class HeaderParser():
         '''
         Return read from mongoDB
         '''
-        with WindyDbConnection() as connection:
+        with DbConnectionManager() as connection:
             headerFileParsedTemplate = HeaderfileParsedTemplate(connection=connection)
             json = headerFileParsedTemplate.find_by_name(name)
             if json is None:

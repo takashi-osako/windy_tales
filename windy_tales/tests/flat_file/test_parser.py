@@ -9,8 +9,8 @@ import os
 from windy_tales.flat_file.header_parser import HeaderParser
 from windy_tales.flat_file.parser import flat_to_json, convert_to_unordered_json
 from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
-from windy_tales.database.connection import WindyDbConnection
 from windy_tales.database.collections.header_file_parsed_template import HeaderfileParsedTemplate
+from cloudy_tales.database.connectionManager import DbConnectionManager
 
 
 class TestParser(UnitTestWithMongoDB):
@@ -20,7 +20,7 @@ class TestParser(UnitTestWithMongoDB):
         here = os.path.abspath(os.path.dirname(__file__))
         file_name = os.path.join(here, '..', 'resources', 'sample.h')
         json = HeaderParser.generate_tempate(file_name)
-        with WindyDbConnection() as connector:
+        with DbConnectionManager() as connector:
             header = HeaderfileParsedTemplate(connector)
             header.save(data_name='sample', data=json, version=0)
 
